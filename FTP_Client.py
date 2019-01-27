@@ -13,20 +13,24 @@ def connect(ip, port):
 		prompt()
 
 def store(filename):
-	# filename = 'testfile.txt'
-	ftp.storbinary('STOR ' + filename, open(filename, 'rb'))
+	try:
+		ftp.storbinary('STOR ' + filename, open(filename, 'rb'))
+		print('Successfully uploaded ' + filename)
+	except:
+		print('That didn\'t work, please try another file')
 
 def retrieve(filename):
-	# filename = 'testfile.txt'
-	localfile = open(filename, 'wb')
-	ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
-	localfile.close()
+	try:
+		localfile = open(filename, 'wb')
+		ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
+		localfile.close()
+		print('Successfully downloaded ' + filename)
+	except:
+		print('Cannot find ' + filename + ' on the FTP server')
 
 def prompt():
-	global ftp
-	
 	cmd = input('\nFTP>>> ')
-	
+
 	if 'CONNECT' in cmd:
 		cmdList = cmd.split()
 		if len(cmdList) == 3:
@@ -40,6 +44,24 @@ def prompt():
 		ftp.retrlines('LIST')
 		prompt()
 
+	elif 'STORE' in cmd:
+		cmdList = cmd.split()
+		if len(cmdList) == 2:
+			store(cmdList[1])
+			prompt()
+		else:
+			print('STORE takes one parameter- The file you would like to upload')
+			prompt()
+
+	elif 'RETRIEVE' in cmd:
+		cmdList = cmd.split()
+		if len(cmdList) == 2:
+			retrieve(cmdList[1])
+			prompt()
+		else:
+			print('RETRIEVE takes exactly one parameter- The file you would like to download')
+			prompt()
+
 	elif 'QUIT':
 		ftp.quit()
 	else:
@@ -50,20 +72,3 @@ def prompt():
 if __name__ == '__main__':
 	print('Python FTP Client is up and running, \nPlease use CONNECT to connect to the FTP server')
 	prompt()
-
-	'''
-	try:
-		# ftp.connect('localhost', 1026)
-		ftp.connect(ip, int(port))
-		ftp.login()
-
-		# cwd is Change working directory, 
-		# this sets it to the current directory
-		ftp.cwd('.')
-		
-		print('\nYour in! What would you like to do?')
-		ftp.retrlines('LIST')
-	'''
-
-	
-	#ftp.retrlines('LIST')
