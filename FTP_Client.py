@@ -7,7 +7,7 @@ to communicate with an FTP server.
 '''
 
 # pip install ftpdlib before running the client
-from ftpdlib import FTP
+from ftplib import FTP
 
 # Create the FTP client object to send requests to the FTP server
 ftp = FTP('')
