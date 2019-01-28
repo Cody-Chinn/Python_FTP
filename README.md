@@ -2,7 +2,7 @@
 
 The first step is to install the prereq's for the modules using pip
 
-`pip install ftpdlib`
+`pip install pyftpdlib`
 
 ## FTP Server
 The FTP server should now be ready to go out of the box.
