@@ -29,3 +29,12 @@ with their syntax
 - QUIT
 
 Please refer to the code for an in depth look at each command
+
+NOTE: This project utilizes Python 3. If you use Python 2, you 
+      should download Python 3 and then run the above modules using 
+      `python3` as a prefix to the command as opposed to `python`. 
+      The commands to run the project will change to
+      
+      `python3 FTP_Server.py` to start the FTP server
+      
+      `python3 FTP_Client.py` to start a client
