@@ -9,7 +9,8 @@ and allows read/write access to anyone
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import ThreadedFTPServer
-
+import os
+import socket
 
 '''
 The main loop that starts the server
@@ -27,7 +28,14 @@ def main():
 
 	# Starts the threaded server on the localhost ip
 	# on port 1026 then runs it forever
-	server = ThreadedFTPServer(('127.0.0.1', 1026), handler)
+
+	gw = os.popen("ip -4 route show default").read().split()
+	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+	s.connect((gw[3],0))
+	ipaddr = s.getsockname()[0]
+
+	server = ThreadedFTPServer((ipaddr, 1026), handler)
 	server.serve_forever()
 
 '''
